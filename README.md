@@ -1,7 +1,7 @@
 # HTML/AngularJS integration &mdash; [live demo](http://virasak.github.io/elm-html-and-js)
 
 This project illustrates how to embed an Elm program in an HTML
-page and how to communicate with AngularJS.
+page and how to communicate with AngularJS using [Angular-Elm](http://virasak.github.io/angular-elm).
 
 ### Build Instructions
 
