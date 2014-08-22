@@ -1,8 +1,10 @@
-<html>
+<html ng-app="Stamps">
 
 <head>
   <title>Embedding Elm</title>
+  <script src="resources/angular.min.js"></script>
   <script src="resources/elm-runtime.js"></script>
+  <script src="https://rawgit.com/virasak/angular-elm/master/angular-elm.js"></script>
   <script src="build/Stamps.js"></script>
   <style>
   body {
@@ -27,51 +29,53 @@
 </head>
 
 <body>
-<div id="column">
+<div id="column" ng-controller="StampController">
   <h1>Stamps</h1>
 
   <p>This demo shows how to:</p>
   <ol>
     <li>embed an Elm program in HTML</li>
-    <li>send events back and forth between Elm and JavaScript</li>
+    <li>send events back and forth between Elm and AngularJS</li>
   </ol>
   <p>The white square is an Elm program, but the rest is HTML, CSS, and JS.
      See the <a href="http://github.com/evancz/elm-html-and-js">source code</a>
      for more info.
   </p>
 
-  <div id="elm-stamps"></div>
+  <div id="elm-stamps" elm module="Stamps" ports-in="{ reset:[] }"></div>
 
-  <p>There are currently <span id="current-count">0</span> stamps.
-     <button onclick="resetStamps()">Reset</button>
+  <p>There are currently {{ currentCount }} stamps.
+     <button ng-click="resetStamps()">Reset</button>
   </p>
-  <p>You have created <span id="total-count">0</span> stamps in total.</p>
+  <p>You have created {{ totalCount }} stamps in total.</p>
 </div>
 </body>
 
 <script type="text/javascript">
-  // Show the stamp module in the "elm-stamps" div.
-  var div = document.getElementById('elm-stamps');
-  var stamps = Elm.embed(Elm.Stamps, div, { reset:[] });
+  var app = angular.module('Stamps', ['Elm']);
 
-  // Reset the number of stamps in the Elm code.
-  // The value we send does not matter, we just
-  // need the event.
-  function resetStamps() {
-    stamps.ports.reset.send([]);
-  }
+  app.controller('StampController', function ($scope) {
+    // Reset the number of stamps in the Elm code.
+    // The value we send does not matter, we just
+    // need the event.
+    $scope.resetStamps = function () {
+      $scope.reset = [];
+    }
 
-  // Always show the latest count of stamps, which is exported
-  // from the Stamps module as the 'count' event stream.
-  var currentCount = document.getElementById('current-count'),
-      totalCount   = document.getElementById('total-count'),
-      total        = 0;
-  stamps.ports.count.subscribe(function(count) {
-      currentCount.innerHTML = count;
-      if (count > 0) {
-          total += 1;
-          totalCount.innerHTML = total;
-      }
+    $scope.currentCount = 0;
+    $scope.totalCount = 0;
+
+    // Always show the latest count of stamps, which is exported
+    // from the Stamps module as the 'count' event stream.
+    $scope.count = function(count) {
+      $scope.$apply(function () {
+        $scope.currentCount = count;
+        if (count > 0) {
+          $scope.totalCount += 1;
+        }
+      });
+    };
+
   });
 </script>
 
