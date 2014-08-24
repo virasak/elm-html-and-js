@@ -21,7 +21,7 @@ clickLocations =
 -- Show the stamp list on screen
 scene (w,h) locs =
   let drawPentagon (x,y) =
-          ngon 5 20 |> filled (hsva (toFloat x) 1 1 0.7)
+          ngon 5 20 |> filled (hsla (toFloat x) 1 0.5 0.7)
                     |> move (toFloat x - toFloat w / 2, toFloat h / 2 - toFloat y)
                     |> rotate (toFloat x)
   in  layers [ collage w h (map drawPentagon locs)
