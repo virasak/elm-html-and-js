@@ -68,12 +68,10 @@
     // Always show the latest count of stamps, which is exported
     // from the Stamps module as the 'count' event stream.
     $scope.count = function(count) {
-      $scope.$apply(function () {
         $scope.currentCount = count;
         if (count > 0) {
           $scope.totalCount += 1;
         }
-      });
     };
 
   });
