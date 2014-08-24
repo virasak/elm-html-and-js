@@ -44,7 +44,7 @@ Elm.Stamps.make = function (_elm) {
                                                                                                        ,_1: Basics.toFloat(_v0._1) / 2 - Basics.toFloat(_v4._1)})(Graphics.Collage.filled(A4(Color.hsla,
                             Basics.toFloat(_v4._0),
                             1,
-                            1,
+                            0.5,
                             0.7))(A2(Graphics.Collage.ngon,
                             5,
                             20))));}
